@@ -1,0 +1,47 @@
+{
+  "name": "youkar",
+  "version": "0.0.1",
+  "description": "projeto youkar para mecanicas e centros automotivos",
+  "main": "index.js",
+  "engines": {
+    "node": "7.9.0",
+    "npm": "3.10.10"
+  },
+  "scripts": {
+    "ng": "ng",
+    "start": "node server.js",
+    "postinstall": "cd client && ng build",
+    "startws": "NODE_ENV=production node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andlb/knew.git"
+  },
+  "keywords": [
+    "MEAN",
+    "Stack",
+    "angular",
+    "2",
+    "application"
+  ],
+  "author": "Andre Luis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andlb/treinamentoangular2/issues"
+  },
+  "homepage": "https://github.com/andlb/treinamentoangular2#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.4",
+    "express": "^4.15.3",
+    "jsonwebtoken": "^7.4.1",
+    "mjml": "^3.3.3",
+    "moment": "^2.18.1",
+    "mongoose": "^4.11.4",
+    "nodemailer": "^4.0.1",
+    "numeral": "^2.0.6"
+  },
+  "devDependencies": {}
+}

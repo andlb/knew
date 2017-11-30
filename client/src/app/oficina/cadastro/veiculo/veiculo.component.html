@@ -1,0 +1,215 @@
+<mat-card>
+  <mat-card-title>Veículo</mat-card-title>
+  <form [formGroup]="dadosForm" (ngSubmit)="onSalvar()"
+        class="form-form">
+    <mat-card-actions>
+      <div fxLayout="column">
+        <div fxLayout="row"
+             fxLayout.xs="column"
+             fxLayoutAlign="start start"
+             fxFlex="100%">
+          <div fxFlex="100%">
+            <button mat-raised-button
+                    color="accent"
+                    type="button"
+                    (click)="onLimpar()">Novo</button>
+
+            <button mat-raised-button
+                    *ngIf="consultar"
+                    color="primary"
+                    type="button"
+                    (click)="onEditar()">Editar</button>
+                    <button mat-raised-button
+                    *ngIf="editar || novo"
+                    color="warn"
+                    type="submit">{{editar ? 'Alterar' : 'Salvar'}}</button>
+          </div>
+        </div>
+      </div>
+    </mat-card-actions>
+    <mat-card-content>
+      <div fxLayout="row"
+           fxLayoutWrap
+           fxLayout.xs="column"
+           fxLayoutAlign="start start">
+        <div fxFlex="30%"
+             fxFlexFill>
+          <mat-form-field class="form-full-width">
+            <input matInput
+                   name="placa"
+                   id="placa"
+                   #placa
+                   required
+                   formControlName="placa"
+                   placeholder="Placa"
+                   value="">
+                  <button mat-button
+                          type="button"
+                          matSuffix
+                          mat-icon-button
+                          aria-label="Consultar"
+                          (click)="onConsultar()">
+                    <mat-icon>search</mat-icon>
+                  </button>
+                  <mat-hint align="end">Informe a placa e clique na lupa</mat-hint>
+                  <mat-error *ngIf="dadosForm.controls.placa.errors?.required">
+                      Necessário informar a placa
+                  </mat-error>
+                  <mat-error *ngIf="dadosForm.controls.placa.errors?.pattern">
+                      Padrão é AAA-0000
+                  </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxFlex="30%"
+             fxFlexFill>
+          <mat-form-field class="form-full-width">
+            <input type="text"
+                   placeholder="Carro"
+                   aria-label="Carro"
+                   matInput
+                   name="carro"
+                   id="carro"
+                   formControlName="carro"
+                   [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete"
+                              [displayWith]="displayFn">
+              <mat-option *ngFor="let option of filteredOptions | async"
+                          [value]="option">
+                {{ option.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div fxFlex="20%"
+             fxFlexFill>
+          <mat-form-field class="form-full-width">
+            <input matInput
+                   ngModel
+                   name="anofab"
+                   id="anofab"
+                   formControlName="anofab"
+                   type="number"
+                   placeholder="Ano Fab."
+                   value="">
+          </mat-form-field>
+        </div>
+        <div fxFlex="20%"
+             fxFlexFill>
+          <mat-form-field class="form-full-width">
+            <input matInput
+                   name="anomod"
+                   id="anomod"
+                   formControlName="anomod"
+                   type="number"
+                   placeholder="Ano Mod."
+                   value="">
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="30%"
+             fxFlexFill>
+          <mat-form-field class="form-full-width">
+            <input matInput
+                   name="marca"
+                   id="marca"
+                   formControlName="marca"
+                   required
+                   placeholder="Marca"
+                   value="">
+                   <mat-error *ngIf="dadosForm.controls.marca.errors?.required">
+                      Necessário informar a marca.
+                  </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxFlex="30%"
+             fxFlexFill>
+          <mat-form-field class="form-full-width">
+            <input matInput
+                   name="modelo"
+                   id="modelo"
+                   formControlName="modelo"
+                   required
+                   placeholder="Modelo"
+                   value="">
+                   <mat-error *ngIf="dadosForm.controls.modelo.errors?.required">
+                      Necessário informar a modelo.
+                  </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxFlex="40%"
+             fxFlexFill>
+          <mat-form-field class="form-full-width">
+            <input matInput
+                   name="versao"
+                   id="versao"
+                   formControlName="versao"
+                   required
+                   placeholder="Versão"
+                   value="">
+                   <mat-error *ngIf="dadosForm.controls.versao.errors?.required">
+                      Necessário informar a versao.
+                  </mat-error>
+
+                  </mat-form-field>
+        </div>
+
+        <div fxFlex="30%"
+             fxFlexFill>
+          <mat-form-field class="form-full-width">
+            <input matInput
+                   name="kmmedio"
+                   id="kmmedio"
+                   formControlName="kmmedio"
+                   placeholder="KM Média"
+                   value="">
+          </mat-form-field>
+        </div>
+        <div fxFlex="30%"
+             fxFlexFill>
+          <mat-form-field class="form-full-width">
+            <input matInput
+                   name="renavam"
+                   id="renavam"
+                   formControlName="renavam"
+                   placeholder="Renavam"
+                   value="">
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="40%"
+             fxFlexFill>
+          <mat-form-field class="form-full-width">
+            <input matInput
+                   name="chassi"
+                   id="chassi"
+                   formControlName="chassi"
+                   placeholder="Chassi"
+                   value="">
+          </mat-form-field>
+        </div>
+        <div fxFlex="30%"
+             fxFlexFill>
+          <mat-form-field class="form-full-width">
+            <input matInput
+                   name="cor"
+                   id="cor"
+                   formControlName="cor"
+                   placeholder="Cor"
+                   value="">
+          </mat-form-field>
+        </div>
+        <div fxFlex="30%"
+             fxFlexFill>
+          <mat-form-field class="form-full-width">
+            <input matInput
+                   name="acessorios"
+                   id="acessorios"
+                   formControlName="acessorios"
+                   placeholder="Acessórios"
+                   value="">
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+  </form>
+</mat-card>
