@@ -64,18 +64,20 @@
              fxFlexFill>
           <mat-form-field class="form-full-width">
             <input type="text"
-                   placeholder="Carro"
-                   aria-label="Carro"
+                   placeholder="Veículo"
+                   aria-label="Veículo"
                    matInput
                    name="carro"
                    id="carro"
                    formControlName="carro"
+                   [formControl]="carroControl"
+
                    [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete"
                               [displayWith]="displayFn">
-              <mat-option *ngFor="let option of filteredOptions | async"
-                          [value]="option">
-                {{ option.name }}
+              <mat-option *ngFor="let veiculo of filteredVeiculos | async"
+                          [value]="veiculo">
+                {{ veiculo }}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>

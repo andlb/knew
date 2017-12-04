@@ -2,14 +2,15 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 const mongoose = require('mongoose');
+const config = require("./config/database")[app.get('env')]
 const path = require('path');
-
-
 const bodyParser = require('body-parser')
 const numeral = require('numeral');
 const registranumeral = require('./util/registranumeral');
 const cors = require('cors');
 const jwt = require("jsonwebtoken");
+
+const veiculo = require('./routes/veiculo')(router);
 
 mongoose.Promise = global.Promise;
 
@@ -34,10 +35,7 @@ mongoose.connect(config.uri,options, (err) => {
         console.log('connected to database : ' + config.db);
     }
 });
-
-correcaoservico.atualizaVersao();
 registranumeral.registraNumeral();
-
 if (app.get('env') === "production") {
     var corsOptions = {
         origin: 'http://youkar.com.br',
@@ -60,7 +58,9 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE, OPTIONS');
     next();
 });
-app.use("/authentication", authentication);
+console.log('entrou ak');
+app.use("/veiculo", veiculo);
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/public/index.html'));
 });

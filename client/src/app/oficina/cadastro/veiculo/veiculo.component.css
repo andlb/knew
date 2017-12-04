@@ -1,0 +1,27 @@
+.mat-input-element {
+  font-size: 20px;
+}
+.mat-form-field{
+  font-size: 20px;
+}
+
+.mat-card-title {
+  font-size: 32px;
+}
+
+.form-form {
+  width: 100%;
+}
+
+.form-full-width {
+  width: 100%;
+}
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.example-container > * {
+  width: 100%;
+}

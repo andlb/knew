@@ -32,6 +32,8 @@
   },
   "homepage": "https://github.com/andlb/treinamentoangular2#readme",
   "dependencies": {
+    "@angular/animations": "^5.0.3",
+    "@angular/flex-layout": "^2.0.0-beta.10-4905443",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.2",
     "cors": "^2.8.4",
@@ -40,6 +42,7 @@
     "mjml": "^3.3.3",
     "moment": "^2.18.1",
     "mongoose": "^4.11.4",
+    "node-rest-client": "^3.1.0",
     "nodemailer": "^4.0.1",
     "numeral": "^2.0.6"
   },
