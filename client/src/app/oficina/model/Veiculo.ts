@@ -7,7 +7,7 @@ export class Veiculo {
   public anofab: string;
   public anomod: string;
   public combustivel: string;
-  public mkmedio: string;
+  public kmmedio: string;
   public renavam: string;
   public chassi: string;
   public cor: string;
@@ -24,7 +24,7 @@ export class Veiculo {
     this.anofab = dadosjs.anofab;
     this.anomod = dadosjs.anomod;
     this.combustivel = dadosjs.combustivel;
-    this.mkmedio = dadosjs.mkmedio;
+    this.kmmedio = dadosjs.kmmedio;
     this.renavam = dadosjs.renavam;
     this.chassi = dadosjs.chassi;
     this.cor = dadosjs.cor;

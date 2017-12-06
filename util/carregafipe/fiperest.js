@@ -50,8 +50,11 @@ function buscaModelo(marca) {
         if (response.statusCode != 200) return;
         contador = contador + 2000;
         for (let cModelo in dataModelo) {          
-          setTimeout(function() {buscaAnoModelo(marca, dataModelo[cModelo])},contador);          
-          gravaModelo(marca, dataModelo[cModelo]);
+          setTimeout(function() {
+            //busca os modelos na api
+            buscaAnoModelo(marca, dataModelo[cModelo])},contador);          
+            //grava os mdelos.
+            gravaModelo(marca, dataModelo[cModelo]);
         }
       }
     );
@@ -118,7 +121,7 @@ function gravaModelo(marca, modelo) {
       modelo: modelo.name,
       key: modelo.key,
       idfipe: modelo.id,
-      idmarca: marca.idfipe
+      idmarca: marca.id
     };
     Modelo.update(
       { idfipe: oModelo.idfipe },

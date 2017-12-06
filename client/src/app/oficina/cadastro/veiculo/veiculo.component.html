@@ -1,214 +1,114 @@
 <mat-card>
   <mat-card-title>Veículo</mat-card-title>
-  <form [formGroup]="dadosForm" (ngSubmit)="onSalvar()"
-        class="form-form">
+  <form (ngSubmit)="onSalvar(f)" #f="ngForm" class="form-form" (keydown.enter)="$event.preventDefault()">
     <mat-card-actions>
       <div fxLayout="column">
-        <div fxLayout="row"
-             fxLayout.xs="column"
-             fxLayoutAlign="start start"
-             fxFlex="100%">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start start" fxFlex="100%">
           <div fxFlex="100%">
-            <button mat-raised-button
-                    color="accent"
-                    type="button"
-                    (click)="onLimpar()">Novo</button>
+            <button mat-raised-button color="accent" type="button" (click)="onLimpar()">Novo</button>
 
-            <button mat-raised-button
-                    *ngIf="consultar"
-                    color="primary"
-                    type="button"
-                    (click)="onEditar()">Editar</button>
-                    <button mat-raised-button
-                    *ngIf="editar || novo"
-                    color="warn"
-                    type="submit">{{editar ? 'Alterar' : 'Salvar'}}</button>
+            <button mat-raised-button *ngIf="consultar" color="primary" type="button" (click)="onEditar()">Editar</button>
+            <button mat-raised-button *ngIf="editar || novo" color="warn" type="submit">{{editar ? 'Alterar' : 'Salvar'}}</button>
           </div>
         </div>
       </div>
     </mat-card-actions>
     <mat-card-content>
-      <div fxLayout="row"
-           fxLayoutWrap
-           fxLayout.xs="column"
-           fxLayoutAlign="start start">
-        <div fxFlex="30%"
-             fxFlexFill>
+      <div fxLayout="row" fxLayoutWrap fxLayout.xs="column" fxLayoutAlign="start start">
+        <div fxFlex="30%" fxFlexFill>
           <mat-form-field class="form-full-width">
-            <input matInput
-                   name="placa"
-                   id="placa"
-                   #placa
-                   required
-                   formControlName="placa"
-                   placeholder="Placa"
-                   value="">
-                  <button mat-button
-                          type="button"
-                          matSuffix
-                          mat-icon-button
-                          aria-label="Consultar"
-                          (click)="onConsultar()">
-                    <mat-icon>search</mat-icon>
-                  </button>
-                  <mat-hint align="end">Informe a placa e clique na lupa</mat-hint>
-                  <mat-error *ngIf="dadosForm.controls.placa.errors?.required">
-                      Necessário informar a placa
-                  </mat-error>
-                  <mat-error *ngIf="dadosForm.controls.placa.errors?.pattern">
-                      Padrão é AAA-0000
-                  </mat-error>
+            <input matInput name="placa" id="placa" #placa required [(ngModel)]="veiculo.placa" #veiculoplaca="ngModel" placeholder="Placa"
+              minlength="8" maxlength="8" value="">
+            <button mat-button type="button" matSuffix mat-icon-button aria-label="Consultar" (click)="onConsultar()">
+              <mat-icon>search</mat-icon>
+            </button>
+            <mat-hint align="end">Informe a placa e clique na lupa</mat-hint>
+            <mat-error *ngIf="veiculoplaca.hasError('required')">
+              Necessário informar a placa
+            </mat-error>
+            <mat-error *ngIf="veiculoplaca.hasError('pattern')">
+              Padrão é AAA-0000
+            </mat-error>
           </mat-form-field>
         </div>
-        <div fxFlex="30%"
-             fxFlexFill>
+        <div fxFlex="30%" fxFlexFill>
           <mat-form-field class="form-full-width">
-            <input type="text"
-                   placeholder="Veículo"
-                   aria-label="Veículo"
-                   matInput
-                   name="carro"
-                   id="carro"
-                   formControlName="carro"
-                   [formControl]="carroControl"
-
-                   [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete"
-                              [displayWith]="displayFn">
-              <mat-option *ngFor="let veiculo of filteredVeiculos | async"
-                          [value]="veiculo">
-                {{ veiculo }}
+            <input type="text" placeholder="Veículo" aria-label="Veículo" matInput name="carro" id="carro" [(ngModel)]="veiculo.carro"
+              (ngModelChange)="dataChanged($event)" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option
+              (onSelectionChange)="selected($event)"
+              *ngFor="let tVeiculo of filteredVeiculos" [value]="tVeiculo">
+                {{ tVeiculo.descricaocompleta }}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
         </div>
-        <div fxFlex="20%"
-             fxFlexFill>
+        <div fxFlex="20%" fxFlexFill>
           <mat-form-field class="form-full-width">
-            <input matInput
-                   ngModel
-                   name="anofab"
-                   id="anofab"
-                   formControlName="anofab"
-                   type="number"
-                   placeholder="Ano Fab."
-                   value="">
+            <input matInput name="anofab" id="anofab" [(ngModel)]="veiculo.anofab" type="number" placeholder="Ano Fab." value="">
           </mat-form-field>
         </div>
-        <div fxFlex="20%"
-             fxFlexFill>
+        <div fxFlex="20%" fxFlexFill>
           <mat-form-field class="form-full-width">
-            <input matInput
-                   name="anomod"
-                   id="anomod"
-                   formControlName="anomod"
-                   type="number"
-                   placeholder="Ano Mod."
-                   value="">
+            <input matInput name="anomod" id="anomod" [(ngModel)]="veiculo.anomod" type="number" placeholder="Ano Mod." value="">
           </mat-form-field>
         </div>
 
-        <div fxFlex="30%"
-             fxFlexFill>
+        <div fxFlex="30%" fxFlexFill>
           <mat-form-field class="form-full-width">
-            <input matInput
-                   name="marca"
-                   id="marca"
-                   formControlName="marca"
-                   required
-                   placeholder="Marca"
-                   value="">
-                   <mat-error *ngIf="dadosForm.controls.marca.errors?.required">
-                      Necessário informar a marca.
-                  </mat-error>
+              <mat-select placeholder="Marca" [(ngModel)]="veiculo.marca" name="marca">
+                  <mat-option *ngFor="let marca of marcas" [value]="marca.id">
+                    {{marca.descricao}}
+                  </mat-option>
+                </mat-select>
+            <mat-error *ngIf="veiculomarca.hasError('required')">
+              Necessário informar a marca.
+            </mat-error>
           </mat-form-field>
         </div>
-        <div fxFlex="30%"
-             fxFlexFill>
+        <div fxFlex="30%" fxFlexFill>
           <mat-form-field class="form-full-width">
-            <input matInput
-                   name="modelo"
-                   id="modelo"
-                   formControlName="modelo"
-                   required
-                   placeholder="Modelo"
-                   value="">
-                   <mat-error *ngIf="dadosForm.controls.modelo.errors?.required">
-                      Necessário informar a modelo.
-                  </mat-error>
+            <input matInput name="modelo" id="modelo" [(ngModel)]="veiculo.modelo" #veiculomodelo="ngModel" required placeholder="Modelo"
+              value="">
+            <mat-error *ngIf="veiculomodelo.hasError('required')">
+              Necessário informar a modelo.
+            </mat-error>
           </mat-form-field>
         </div>
-        <div fxFlex="40%"
-             fxFlexFill>
+        <div fxFlex="40%" fxFlexFill>
           <mat-form-field class="form-full-width">
-            <input matInput
-                   name="versao"
-                   id="versao"
-                   formControlName="versao"
-                   required
-                   placeholder="Versão"
-                   value="">
-                   <mat-error *ngIf="dadosForm.controls.versao.errors?.required">
-                      Necessário informar a versao.
-                  </mat-error>
+            <input matInput name="versao" id="versao" [(ngModel)]="veiculo.versao" #veiculoversao="ngModel" required placeholder="Versão"
+              value="">
+            <mat-error *ngIf="veiculoversao.hasError('required')">
+              Necessário informar a versao.
+            </mat-error>
 
-                  </mat-form-field>
-        </div>
-
-        <div fxFlex="30%"
-             fxFlexFill>
-          <mat-form-field class="form-full-width">
-            <input matInput
-                   name="kmmedio"
-                   id="kmmedio"
-                   formControlName="kmmedio"
-                   placeholder="KM Média"
-                   value="">
           </mat-form-field>
         </div>
-        <div fxFlex="30%"
-             fxFlexFill>
+        <div fxFlex="30%" fxFlexFill>
           <mat-form-field class="form-full-width">
-            <input matInput
-                   name="renavam"
-                   id="renavam"
-                   formControlName="renavam"
-                   placeholder="Renavam"
-                   value="">
+            <input matInput name="kmmedio" id="kmmedio" [(ngModel)]="veiculo.kmmedio" placeholder="KM Média" value="">
           </mat-form-field>
         </div>
-
-        <div fxFlex="40%"
-             fxFlexFill>
+        <div fxFlex="30%" fxFlexFill>
           <mat-form-field class="form-full-width">
-            <input matInput
-                   name="chassi"
-                   id="chassi"
-                   formControlName="chassi"
-                   placeholder="Chassi"
-                   value="">
+            <input matInput name="renavam" id="renavam" [(ngModel)]="veiculo.renavam" placeholder="Renavam" value="">
           </mat-form-field>
         </div>
-        <div fxFlex="30%"
-             fxFlexFill>
+        <div fxFlex="40%" fxFlexFill>
           <mat-form-field class="form-full-width">
-            <input matInput
-                   name="cor"
-                   id="cor"
-                   formControlName="cor"
-                   placeholder="Cor"
-                   value="">
+            <input matInput name="chassi" id="chassi" [(ngModel)]="veiculo.chassi" placeholder="Chassi" value="">
           </mat-form-field>
         </div>
-        <div fxFlex="30%"
-             fxFlexFill>
+        <div fxFlex="30%" fxFlexFill>
           <mat-form-field class="form-full-width">
-            <input matInput
-                   name="acessorios"
-                   id="acessorios"
-                   formControlName="acessorios"
-                   placeholder="Acessórios"
-                   value="">
+            <input matInput name="cor" id="cor" [(ngModel)]="veiculo.cor" placeholder="Cor" value="">
+          </mat-form-field>
+        </div>
+        <div fxFlex="30%" fxFlexFill>
+          <mat-form-field class="form-full-width">
+            <input matInput name="acessorios" id="acessorios" [(ngModel)]="veiculo.acessorios" placeholder="Acessórios" value="">
           </mat-form-field>
         </div>
       </div>
