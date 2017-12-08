@@ -90,7 +90,7 @@ function GetModelo(req, res, marca) {
   if (req.params.modeloid) {
     query.idfipe = req.params.modeloid;
   }
-  Modelo.find(query, { modelo: 1, idfipe: 1, idmarca: 1 })
+  Modelo.find(query, { modelo: 1 })
     .sort({ modelo: 1 })
     .then(modelos => res.json(modelos))
     .catch(err => res.json(retorno));
@@ -107,10 +107,7 @@ function GetAnoModelo(modelo, req, res) {
   Anomodelo.find(
     { $text: { $search: arModelo } },
     {
-      descricaocompleta: 1,
-      idmodelo: 1,
-      idmarca: 1,
-      idfipe: 1
+      descricaocompleta: 1
     }
   )
     .then(doModelos => res.json(doModelos))
@@ -119,29 +116,14 @@ function GetAnoModelo(modelo, req, res) {
 
 function BuscaPlaca(req, res) {
   try {
+
     let retorno = {};
     Veiculo.findOne({ placa: req.params.placa })
+      .populate('carro','descricaocompleta')
+      .populate('modelo','modelo')
       .then(veiculo => {
-        if (!veiculo) {
-          let placa = req.params.placa.replace('-', '');
-          sinesp.consultaPlaca(placa, function(retorno) {
-            console.log(retorno);
-            veiculo = {};
-            if (retorno && retorno.codigoRetorno !== 1) {
-              try {
-                let carro =
-                  retorno.modelo.split('/')[1] + ' ' + retorno.anoModelo;
-                veiculo = {
-                  placa: req.params.placa,
-                  carro: carro,
-                  anofab: retorno.ano,
-                  anomod: retorno.anoModelo,
-                  cor: retorno.cor
-                };
-              } catch (ex) {}
-              res.json(veiculo);
-            }
-          });
+        if (!veiculo) {          
+          consultaPlacaSinesp(req, res)
         } else {
           res.json(veiculo);
         }
@@ -152,4 +134,29 @@ function BuscaPlaca(req, res) {
         return res.json(retorno);
       });
   } catch (ex) {}
+}
+
+function consultaPlacaSinesp(req, res){
+  let placa = req.params.placa.replace('-', '');
+  sinesp.consultaPlaca(placa, function(retorno) {
+    let veiculo = {
+      placa: req.params.placa
+    };
+    if (retorno && retorno.codigoRetorno !== 1) {
+      try {
+        let carro =
+          retorno.modelo.split('/')[1] + ' ' + retorno.anoModelo;
+          veiculo = {
+            placa: req.params.placa,
+            carro: carro,
+            anofab: retorno.ano,
+            anomod: retorno.anoModelo,
+            cor: retorno.cor
+          };
+      } catch (ex) {        
+      }                            
+      return res.json(veiculo);
+    }
+  });
+
 }

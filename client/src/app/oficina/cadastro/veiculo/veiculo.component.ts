@@ -56,6 +56,7 @@ export class VeiculoComponent implements OnInit, OnDestroy {
   veiculo: Veiculo = new Veiculo({});
   marcas = [];
   modelos = [];
+  acessorios = ['Ar condicionado','Airbag','Direção hidráulica','Freio ABS'];
 
   constructor(
     public snackBar: MatSnackBar,
@@ -119,7 +120,8 @@ export class VeiculoComponent implements OnInit, OnDestroy {
   }
 
   afterConsultar() {
-    this.getModelo(this.veiculo.marca, this.veiculo.modelo);
+
+    // this.getModelo(this.veiculo.marca, this.veiculo.modelo);
     this.veiculocarro.nativeElement.focus();
     this.novo = false;
     this.consultar = false;
@@ -232,10 +234,13 @@ export class VeiculoComponent implements OnInit, OnDestroy {
         .getModelos(veiculo.idmarca, veiculo.idmodelo)
         .subscribe(modelos => {
           this.modelos = modelos;
-          this.veiculo.marca = veiculo.idmarca;
-          this.veiculo.modelo = veiculo.idmodelo;
-          this.veiculo.anomod = veiculo.idfipe.split('-')[0];
-          this.getModelo(veiculo.idmarca, veiculo.idmodelo);
+          if (veiculo._id) {
+            const veiculoid = veiculo._id.split('|');
+            this.veiculo.marca = veiculoid[0];
+            this.veiculo.modelo = veiculoid[1];
+            this.veiculo.anomod = veiculoid[2].split('-')[0];
+            this.getModelo(veiculo.idmarca, veiculo.idmodelo);
+          }
         });
     } catch (ex) {
       console.log(ex);

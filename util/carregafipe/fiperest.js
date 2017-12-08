@@ -146,7 +146,7 @@ function gravaAnoModelo(marca, modelo, anomodelo) {
   
   try {
     let oAnoModelo = {
-      _id:marca.id+"|"+marca.id+"|"+anomodelo.id,
+      _id:marca.id+"|"+modelo.id+"|"+anomodelo.id,
       descricaocompleta: modelo.name + ' ' + anomodelo.name,
       ano: anomodelo.name,
       idmodelo: modelo.id,

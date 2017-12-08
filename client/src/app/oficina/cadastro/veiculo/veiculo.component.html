@@ -102,14 +102,7 @@
                 {{ tModelo.modelo }}
               </mat-option>
             </mat-autocomplete>
-            <!-- <mat-select placeholder="Modelo" [(ngModel)]="veiculo.modelo" #veiculomodelo="ngModel" name="modelo">
-              <mat-option *ngFor="let modelo of modelos" [value]="modelo.idfipe">
-                {{modelo.modelo}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="veiculomodelo.hasError('required')">
-              Necessário informar a modelo.
-            </mat-error>-->
+
           </mat-form-field>
         </div>
         <div fxFlex="15%" fxFlexFill>
@@ -123,10 +116,12 @@
           </mat-form-field>
         </div>
 
-        <div fxFlex="30%" fxFlexFill>
-          <mat-form-field class="form-full-width">
-            <input matInput name="acessorios" id="acessorios" [(ngModel)]="veiculo.acessorios" placeholder="Acessórios" value="">
-          </mat-form-field>
+        <div fxFlex="40%" fxFlexFill>
+            <mat-form-field class="form-full-width">
+              <mat-select placeholder="Acessórios" [(ngModel)]="veiculo.acessorios" name="acessorio" #veiculoacessorio="ngModel" multiple>
+                <mat-option *ngFor="let acessorio of acessorios" [value]="acessorio">{{acessorio}}</mat-option>
+              </mat-select>
+            </mat-form-field>
         </div>
 
         <div fxFlex="15%" fxFlexFill>
@@ -140,7 +135,7 @@
           </mat-form-field>
         </div>
 
-        <div fxFlex="15%" fxFlexFill>
+        <div fxFlex="25%" fxFlexFill>
           <mat-form-field class="form-full-width">
             <input matInput name="chassi" id="chassi" [(ngModel)]="veiculo.chassi" placeholder="Chassi" value="">
           </mat-form-field>

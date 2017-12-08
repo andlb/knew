@@ -9,6 +9,7 @@ export class VeiculoService {
   constructor(private http: HttpClient) {}
 
   readonly ROOT_URL = 'http://localhost:8080/';
+
   getMarcas() {
     const url = this.ROOT_URL + 'veiculo/marcas';
     return this.http.get<any[]>(url);
