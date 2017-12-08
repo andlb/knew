@@ -6,7 +6,6 @@ const veiculoSchema = new Schema({
   carro: {type:String, uppercase: true},
   marca: {type:String},
   modelo: {type:String},
-  versao: {type:String},
   anofab: {type:String},
   anomod: {type:String},
   combustivel: {type:String},

@@ -44,7 +44,8 @@
     "mongoose": "^4.11.4",
     "node-rest-client": "^3.1.0",
     "nodemailer": "^4.0.1",
-    "numeral": "^2.0.6"
+    "numeral": "^2.0.6",
+    "sinesp-nodejs": "^1.0.5"
   },
   "devDependencies": {}
 }

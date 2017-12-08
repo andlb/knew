@@ -1,3 +1,4 @@
+import { VeiculoService } from './../veiculo.service';
 import { Veiculo } from './../../../model/veiculo';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/withLatestFrom';
@@ -9,6 +10,9 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import * as fromVeiculo from '../store/veiculo.reducers';
 import * as VeiculoActions from './veiculo.actions';
+import { veiculoReducer } from '../store/veiculo.reducers';
+
+import { Mensagem } from '../../../model/mensagem';
 
 @Injectable()
 export class VeiculoEffects {
@@ -16,45 +20,47 @@ export class VeiculoEffects {
   veiculoSearch = this.actions$
     .ofType(VeiculoActions.SEARCH_VEICULO)
     .switchMap((action: VeiculoActions.SearchVeiculo) => {
-      console.log('entrou em switch');
-      return this.httpClient.get
-      ('http://localhost:8080/veiculo/consulta/' + action.payload,
-        {
-          observe: 'body',
-          responseType: 'json'
-        }
-      );
+      return this.veiculoService.buscaPlaca(action.payload);
     })
     .map(
       (veiculo) => {
-        console.log('entrou em veiculo map');
-
-        veiculo = {
-          placa: 'ABC-1000',
-          carro: 'CARRO 1',
-          marca: 'CARRP 1',
-          modelo: 'MODELO',
-          versao: '2012',
-          anofab: '2012',
-          anomod: '2012',
-          combustivel: 'GASOLINA',
-          mkmedio: '1500',
-          renavam: '123456789',
-          chassi: '132456798',
-          cor: 'BRANCO',
-          acessorios: ''
-        };
+        console.log('veiculo');
         console.log(veiculo);
+        console.log('terminando ');
         return {
           type: VeiculoActions.SET_VEICULO,
           payload: veiculo
         };
       }
     );
+    @Effect()
+    veiculoStore = this.actions$
+      .ofType(VeiculoActions.STORE_VEICULO)
+      .withLatestFrom(this.store.select('veiculo'))
+      .switchMap(([action, state]) => {
+        return this.veiculoService.salvar(state.veiculo);
+      })
+      .map(
+        (retornoSalvar: any) => {
+
+          const mensagem = new Mensagem();
+          if (retornoSalvar.success) {
+            mensagem.message = retornoSalvar.message;
+            mensagem.erro = false;
+          } else {
+            mensagem.message = retornoSalvar.message;
+            mensagem.erro = true;
+          }
+          return{
+            type: VeiculoActions.SUCCESS_VEICULO,
+            payload: mensagem
+          };
+        }
+      );
 
   constructor(
     private actions$: Actions,
-    private httpClient: HttpClient,
+    private veiculoService: VeiculoService,
     private store: Store<fromVeiculo.FeatureState>
   ) {}
 }

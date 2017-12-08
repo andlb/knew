@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;
 const anomodeloSchema = new Schema({
+  _id:{type:String},
   descricaocompleta: {
     type: String,
     required: [true, 'Descricao não definida']

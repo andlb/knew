@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;
 const marcaSchema = new Schema({
+  _id:{type:String},
   marca: { type: String, required: [true, 'Marca não definida'] },
   key: { type: String, required: [true, 'key não definida'] },
   idfipe: {

@@ -1,18 +1,22 @@
+import { Mensagem } from './../../../model/Mensagem';
 import { State } from './veiculo.reducers';
 import { Veiculo } from './../../../model/veiculo';
 
 import * as VeiculoActions from './veiculo.actions';
 
 export interface FeatureState {
-  veiculos: State;
+  veiculo: State;
+  mensagem: Mensagem;
 }
 
 export interface State {
-  veiculos: Veiculo[];
+  veiculo: Veiculo;
+  mensagem: Mensagem;
 }
 
-const initialState: State = {
-  veiculos: []
+export const initialState: State = {
+  veiculo: new Veiculo({}),
+  mensagem: null
 };
 
 export function veiculoReducer(
@@ -20,10 +24,26 @@ export function veiculoReducer(
   action: VeiculoActions.VeiculoActions
 ) {
   switch (action.type) {
+    case VeiculoActions.NEW_VEICULO:
+    return {
+      ...state,
+      veiculo: new Veiculo({}),
+      mensagem: null
+    };
     case VeiculoActions.SET_VEICULO:
       return {
         ...state,
-        veiculos: action.payload
+        veiculo: action.payload
+      };
+      case VeiculoActions.STORE_VEICULO:
+      return {
+        ...state,
+        veiculo: action.payload
+      };
+      case VeiculoActions.SUCCESS_VEICULO:
+      return {
+        ...state,
+        mensagem: action.payload
       };
     default:
       return state;

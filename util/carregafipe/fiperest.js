@@ -95,9 +95,11 @@ function buscaAnoModelo(marca, modelo) {
 function gravaMarca(marca) {
   try {
     let oMarca = {
+      _id:marca.id,
       marca: marca.name,
       key: marca.key,
-      idfipe: marca.id
+      idfipe: marca.id,
+      _id:marca.id
     };
     Marca.update(
       { idfipe: oMarca.idfipe },
@@ -118,6 +120,7 @@ function gravaMarca(marca) {
 function gravaModelo(marca, modelo) {
   try {
     let oModelo = {
+      _id:modelo.id,
       modelo: modelo.name,
       key: modelo.key,
       idfipe: modelo.id,
@@ -143,6 +146,7 @@ function gravaAnoModelo(marca, modelo, anomodelo) {
   
   try {
     let oAnoModelo = {
+      _id:marca.id+"|"+marca.id+"|"+anomodelo.id,
       descricaocompleta: modelo.name + ' ' + anomodelo.name,
       ano: anomodelo.name,
       idmodelo: modelo.id,

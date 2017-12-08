@@ -3,7 +3,6 @@ export class Veiculo {
   public carro: string;
   public marca: string;
   public modelo: string;
-  public versao: string;
   public anofab: string;
   public anomod: string;
   public combustivel: string;
@@ -20,7 +19,6 @@ export class Veiculo {
     this.carro = dadosjs.carro;
     this.marca = dadosjs.marca;
     this.modelo = dadosjs.modelo;
-    this.versao = dadosjs.versao;
     this.anofab = dadosjs.anofab;
     this.anomod = dadosjs.anomod;
     this.combustivel = dadosjs.combustivel;

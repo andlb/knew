@@ -1,2 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+.inform-snackbar {
+  background: rgb(27, 134, 216);
+}
+
+.alert-snackbar {
+  background: #F44336;
+}

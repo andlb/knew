@@ -48,6 +48,7 @@ import { veiculoReducer } from './oficina/cadastro/veiculo/store/veiculo.reducer
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { VeiculoEffects } from './oficina/cadastro/veiculo/store/veiculo.effects';
+import { VeiculoService } from './oficina/cadastro/veiculo/veiculo.service';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,7 @@ import { VeiculoEffects } from './oficina/cadastro/veiculo/store/veiculo.effects
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    StoreModule.forRoot({veiculos: veiculoReducer}),
+    StoreModule.forRoot({veiculo: veiculoReducer}),
     EffectsModule.forRoot([VeiculoEffects]),
     FlexLayoutModule,
     MatAutocompleteModule,
@@ -99,7 +100,7 @@ import { VeiculoEffects } from './oficina/cadastro/veiculo/store/veiculo.effects
     MatStepperModule,
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
-  providers: [],
+  providers: [VeiculoService],
 
   bootstrap: [AppComponent]
 })
