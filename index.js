@@ -11,6 +11,7 @@ const cors = require('cors');
 const jwt = require("jsonwebtoken");
 
 const veiculo = require('./routes/veiculo')(router);
+const produto = require('./routes/produto')(router);
 
 mongoose.Promise = global.Promise;
 
@@ -58,9 +59,8 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE, OPTIONS');
     next();
 });
-console.log('entrou ak');
 app.use("/veiculo", veiculo);
-
+app.use("/produto", produto);
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/public/index.html'));
 });
