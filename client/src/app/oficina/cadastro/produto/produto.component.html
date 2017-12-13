@@ -1,0 +1,69 @@
+<mat-card>
+  <mat-card-title>Produto</mat-card-title>
+  <form (ngSubmit)="onSalvar(f)" #f="ngForm" class="form-form" (keydown.enter)="$event.preventDefault()">
+    <mat-card-actions>
+      <div fxLayout="column">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start start" fxFlex="100%">
+          <div fxFlex="100%">
+            <button mat-raised-button color="accent" type="button" (click)="onLimpar()">Novo</button>
+
+            <button mat-raised-button *ngIf="consultar" color="primary" type="button" (click)="onEditar()">Editar</button>
+            <button mat-raised-button *ngIf="editar || novo" color="warn" type="submit">Salvar</button>
+          </div>
+        </div>
+      </div>
+    </mat-card-actions>
+    <mat-card-content>
+
+      <div [fxLayout]="'row'" fxLayout.xs="column" style="cursor: pointer;">
+        <div fxFlex=35 [fxLayout]="'column'">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Código" value="">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Marca" value="">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Cód. Fabricante" value="">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="NCM" value="">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Código de barras" value="">
+          </mat-form-field>
+        </div>
+        <div fxFlex=35 [fxLayout]="'column'">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Altura" value="">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Lagura" value="">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Comprimento" value="">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Peso bruto" value="">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Cód. montadora" value="">
+          </mat-form-field>
+        </div>
+        <div fxFlex="20" [fxLayout]="'column'">
+          <div fxFlex> D</div>
+        </div>
+      </div>
+      <div [fxLayout]="'row'" fxLayout.xs="column" style="cursor: pointer;">
+        <div fxFlex=100 [fxLayout]="'column'">
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Complemento" rows="5"></textarea>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Compatível" rows="5"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+  </form>
+</mat-card>

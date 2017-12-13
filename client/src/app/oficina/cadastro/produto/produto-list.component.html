@@ -1,0 +1,51 @@
+<mat-card>
+  <mat-card-title>Veículo</mat-card-title>
+  <mat-card-actions>
+    <div fxLayout="column">
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start start" fxFlex="100%">
+        <div fxFlex="100%">
+          <button mat-raised-button color="accent" type="button" (click)="onConsultar()">
+            Consultar
+          </button>
+        </div>
+      </div>
+    </div>
+  </mat-card-actions>
+  <mat-card-content>
+    <div fxLayout="column" fxLayoutWrap fxLayout.xs="column" fxLayoutAlign="start start">
+      <div fxFlex="100%" fxFlexFill>
+        <mat-form-field>
+          <input matInput (keyup)="applyFilter($event)" [(ngModel)]="conteudo" placeholder="Filter">
+        </mat-form-field>
+      </div>
+      <div fxFlex="100%" fxFlexFill>
+        <mat-table #table [dataSource]="dataSource">
+          <ng-container matColumnDef="descricao">
+            <mat-header-cell *matHeaderCellDef> Descricao </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.descricao}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="codigofab">
+            <mat-header-cell *matHeaderCellDef> Código fabricante </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.codigofab}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="fabricante">
+            <mat-header-cell *matHeaderCellDef> Fabricante </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.fabricante}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="imagem">
+            <mat-header-cell *matHeaderCellDef> Foto produto </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <img src="{{element.imagem}}" class="img-responsive" style="max-height: 50px;">
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row (click)="onSelect(row)"
+          *matRowDef="let row; columns: displayedColumns;" ></mat-row>
+        </mat-table>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

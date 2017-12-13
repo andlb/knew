@@ -1,3 +1,4 @@
+import { ProdutoEffects } from './oficina/cadastro/produto/store/produto.effects';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -41,7 +42,6 @@ import {
 import { AppComponent } from './app.component';
 import { OficinaComponent } from './oficina/oficina.component';
 import { VeiculoComponent } from './oficina/cadastro/veiculo/veiculo.component';
-import { PecaComponent } from './oficina/cadastro/peca/peca.component';
 import { ServicoComponent } from './oficina/cadastro/servico/servico.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { veiculoReducer } from './oficina/cadastro/veiculo/store/veiculo.reducers';
@@ -49,14 +49,19 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { VeiculoEffects } from './oficina/cadastro/veiculo/store/veiculo.effects';
 import { VeiculoService } from './oficina/cadastro/veiculo/veiculo.service';
+import { ProdutoService } from './oficina/cadastro/produto/produto.service';
+import { ProdutoComponent } from './oficina/cadastro/produto/produto.component';
+import { ProdutoListComponent } from './oficina/cadastro/produto/produto-list.component';
+import { produtoReducer } from './oficina/cadastro/produto/store/produto.reducers';
 
 @NgModule({
   declarations: [
     AppComponent,
     OficinaComponent,
     VeiculoComponent,
-    PecaComponent,
-    ServicoComponent
+    ServicoComponent,
+    ProdutoComponent,
+    ProdutoListComponent
   ],
   imports: [
     BrowserModule,
@@ -64,8 +69,8 @@ import { VeiculoService } from './oficina/cadastro/veiculo/veiculo.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    StoreModule.forRoot({veiculo: veiculoReducer}),
-    EffectsModule.forRoot([VeiculoEffects]),
+    StoreModule.forRoot({veiculo: veiculoReducer, produto: produtoReducer}),
+    EffectsModule.forRoot([VeiculoEffects, ProdutoEffects]),
     FlexLayoutModule,
     MatAutocompleteModule,
     MatButtonModule,
@@ -100,7 +105,7 @@ import { VeiculoService } from './oficina/cadastro/veiculo/veiculo.service';
     MatStepperModule,
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
-  providers: [VeiculoService],
+  providers: [VeiculoService,ProdutoService],
 
   bootstrap: [AppComponent]
 })

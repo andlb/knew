@@ -63,12 +63,12 @@ function cadastraProduto(line) {
     }
 
     if (linejs[c].titulo){
-      dadosCarro.nome = linejs[c].titulo;
+      dadosCarro.descricao = linejs[c].titulo;
       continue;
     }    
 
     if (linejs[c].descricao){
-      dadosCarro.descricao = linejs[c].descricao;
+      dadosCarro.complemento = linejs[c].descricao;
       continue;
     }    
 

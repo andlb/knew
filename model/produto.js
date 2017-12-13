@@ -6,8 +6,8 @@ autoIncrement.initialize(mongoose.connection);
 
 const produtoSchema = new Schema({
   codigoexterno: {type:String, required: [true, "Código externo requerido"], unique: true  },
-  nome:{type:String, required: [true, "Nome externo requerido"] },
-  descricao:{type:String},
+  descricao:{type:String, required: [true, "Nome externo requerido"] },
+  complemento:{type:String},
   NCM:{type:String},
   fabricante:
     {marca:String,
@@ -31,7 +31,7 @@ const produtoSchema = new Schema({
   situacao:{type:Boolean}
 });
 
-produtoSchema.index({ nome: 'text',
+produtoSchema.index({ descricao: 'text',
 compativel:'text',
 'codigomontadora.codigo':'text',
 'fabricante.codigo':'text' });

@@ -4,25 +4,70 @@ const Produto = require('../model/produto');
 
 module.exports = router => {
   router.get('/pesquisa/:conteudo', (req, res) => {
-    GetDadosProduto(req,res);
+    GetProdutoPesquisa(req,res);
   });
+
+  router.get('/produto/:codigo', (req, res) => {
+    GetProduto(req,res);
+  });
+
   return router;  
 }
+// return product information.
+function GetProduto(req,res){
+  let retorno = {success:false,message:null,produto:null};
+  if (!req.params.codigo){
+    retorno.message = "Código não informado";
+    return res.json(retorno);
+  }
 
-function GetDadosProduto(req,res) {  
+  Produto.findOne(
+    { _id: req.params.codigo}
+  )
+  .then((produto)=>{
+    if (!produto){
+      retorno.message = "Produto não encontrado";
+      return res.json(retorno);
+    }
+    retorno.success=true;
+    retorno.produto=produto;
+    return res.json(retorno);
+  })
+  .catch(err =>{
+    retorno.message = err;
+    return res.json(retorno);
+  });  
+}
+
+
+
+function GetProdutoPesquisa(req,res) {  
   if (!req.params.conteudo){
     res.json({});
   }
-  conteudo = PesquisaText(req.params.conteudo);
+  conteudo = PesquisaText(req.params.conteudo);  
   Produto.find(
     { $text: { $search: conteudo } },
     {
-      Nome:1,
+      descricao:1,
       fabricante:1,
       imagem:1,      
     }
   )
-  .then(doProdutos => res.json(doProdutos))
+  .limit(300)
+  .then(doProdutos => {
+    let arraProd = [];
+    for (let cDoc in doProdutos){
+      let prod = {};
+      prod.descricao = doProdutos[cDoc].descricao;
+      prod.fabricante = doProdutos[cDoc].fabricante.marca;
+      prod.codigofab = doProdutos[cDoc].fabricante.codigo;
+      prod.imagem = doProdutos[cDoc].imagem[0];
+      prod.codigo = doProdutos[cDoc]._id;
+      arraProd.push(prod);
+    }
+    return res.json(arraProd);  
+  })
   .catch(err => res.json({}));
 }
 
