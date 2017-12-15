@@ -41,7 +41,7 @@
     "jsonwebtoken": "^7.4.1",
     "line-by-line": "^0.1.5",
     "mjml": "^3.3.3",
-    "moment": "^2.18.1",
+    "moment": "^2.19.4",
     "mongoose": "^4.11.4",
     "mongoose-auto-increment": "^5.0.1",
     "node-rest-client": "^3.1.0",

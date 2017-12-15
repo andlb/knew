@@ -1,3 +1,4 @@
+import { ImageUploadModule } from 'angular2-image-upload';
 import { ProdutoEffects } from './oficina/cadastro/produto/store/produto.effects';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -6,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -71,6 +73,7 @@ import { produtoReducer } from './oficina/cadastro/produto/store/produto.reducer
     HttpClientModule,
     StoreModule.forRoot({veiculo: veiculoReducer, produto: produtoReducer}),
     EffectsModule.forRoot([VeiculoEffects, ProdutoEffects]),
+    ImageUploadModule.forRoot(),
     FlexLayoutModule,
     MatAutocompleteModule,
     MatButtonModule,

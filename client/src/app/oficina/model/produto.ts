@@ -1,5 +1,5 @@
 export class Produto {
-  public _id: string;
+  public id: string;
   public codigoexterno: string;
   public descricao: string;
   public complemento: string;
@@ -14,42 +14,74 @@ export class Produto {
   public pesounidade: string;
   public codigobarras: string;
   public linha: string;
-  public compativel: string[];
+  public compativel: string;
   public situacao: string;
   public fabricante: {
     marca: string,
     codigo: string
   };
   public imagem: string[];
-
   public codigomontadora: [{
-    montadora: {type: string},
-    codigo: {type: string},
+    montadora: string,
+    codigo:  string
   }];
+
   constructor(dadosjs: any) {
     if (!dadosjs) {
       return;
     }
-    this._id = dadosjs._id;
+    this.id = dadosjs._id;
     this.codigoexterno = dadosjs.codigoexterno;
     this.descricao = dadosjs.descricao;
     this.complemento = dadosjs.complemento;
     this.NCM = dadosjs.NCM;
-    this.altura = dadosjs.altura;
-    this.alturaunidade = dadosjs.alturaunidade;
-    this.largura = dadosjs.largura;
-    this.larguraunidade = dadosjs.larguraunidade;
-    this.comprimento = dadosjs.comprimento;
-    this.comprimentounidade = dadosjs.comprimentounidade;
-    this.pesobruto = dadosjs.pesobruto;
-    this.pesounidade = dadosjs.pesounidade;
+    this.altura = dadosjs.altura ? dadosjs.altura + ' ' + dadosjs.alturaunidade : '';
+    this.largura = dadosjs.largura ? dadosjs.largura + ' ' + dadosjs.larguraunidade : '';
+    this.comprimento = dadosjs.comprimento ? dadosjs.comprimento + ' ' + dadosjs.comprimentounidade : '';
+    this.pesobruto = dadosjs.pesobruto ? dadosjs.pesobruto + ' ' + dadosjs.pesounidade : '';
     this.codigobarras = dadosjs.codigobarras;
     this.linha = dadosjs.linha;
-    this.compativel = dadosjs.compativel;
+
+    if ((dadosjs.compativel) && (dadosjs.compativel.length > 0)) {
+      console.log('lenght' + dadosjs.compativel.length);
+      this.compativel = dadosjs.compativel.join(', ');
+    }
     this.situacao = dadosjs.situacao;
-    this.fabricante = dadosjs.fabricante;
+    let marca = '';
+    let marcaproduto = '';
+    if (dadosjs.fabricante) {
+      marca = dadosjs.fabricante.marca;
+      marcaproduto = dadosjs.fabricante.codigo;
+    }
+    this.fabricante = {
+      marca: marca,
+      codigo: marcaproduto
+    };
     this.codigomontadora = dadosjs.codigomontadora;
     this.imagem = dadosjs.imagem;
   }
 
+  beforesalvar() {
+    const altura = this.altura.split(' ');
+    const largura = this.altura.split(' ');
+    const comprimento = this.comprimento.split(' ');
+    const pesobruto = this.pesobruto.split(' ');
+    if (altura.length > 1) {
+      this.altura = altura[0];
+      this.alturaunidade = altura[1];
+    }
+    if (largura.length > 1) {
+      this.largura = largura[0];
+      this.larguraunidade = largura[1];
+    }
+    if (comprimento.length > 1) {
+      this.comprimento = comprimento[0];
+      this.comprimentounidade = comprimento[1];
+    }
+    if (pesobruto.length > 1) {
+      this.pesobruto = pesobruto[0];
+      this.pesounidade = pesobruto[1];
+    }
+    return this;
+  }
 }

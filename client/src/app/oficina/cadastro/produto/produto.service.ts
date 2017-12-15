@@ -15,8 +15,14 @@ export class ProdutoService {
     return this.http.get<any[]>(url);
   }
 
-  getProduto(codigo) {
-    const url = this.ROOT_URL + 'produto/' + codigo;
+  getProduto(codigo, usuario) {
+    const url = this.ROOT_URL + 'consulta/' + codigo + '/' + usuario;
     return this.http.get<any[]>(url);
   }
+
+  salvar(produto: Produto) {
+    const url = this.ROOT_URL + 'salvarproduto';
+    return this.http.post(url, produto);
+  }
+
 }

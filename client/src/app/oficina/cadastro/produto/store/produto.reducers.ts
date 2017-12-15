@@ -17,16 +17,7 @@ export const initialState: State = {
   mensagem: null
 };
 
-// export class FailProduto implements Action {
-//   readonly type = FAIL_PRODUTO;
-//   constructor(public payload: Message) {
-//   }
-// }
-// export class SuccessProduto implements Action {
-//   readonly type = SUCCESS_PRODUTO;
-//   constructor(public payload: Produto) {
-//   }
-// }
+
 export function produtoReducer(
   state = initialState,
   action: ProdutoActions.ProdutoActions
@@ -51,8 +42,17 @@ export function produtoReducer(
       produto: action.payload,
       mensagem: null
     };
-
-
+    case ProdutoActions.STORE_PRODUTO:
+    return {
+      ...state,
+      produto: action.payload
+    };
+    case ProdutoActions.APOS_SALVAR:
+    return {
+      ...state,
+      produto: null,
+      mensagem: action.payload
+    };
     default:
       return state;
   }

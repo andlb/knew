@@ -1,3 +1,4 @@
+
 <mat-card>
   <mat-card-title>Produto</mat-card-title>
   <form (ngSubmit)="onSalvar(f)" #f="ngForm" class="form-form" (keydown.enter)="$event.preventDefault()">
@@ -5,62 +6,114 @@
       <div fxLayout="column">
         <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start start" fxFlex="100%">
           <div fxFlex="100%">
-            <button mat-raised-button color="accent" type="button" (click)="onLimpar()">Novo</button>
-
-            <button mat-raised-button *ngIf="consultar" color="primary" type="button" (click)="onEditar()">Editar</button>
-            <button mat-raised-button *ngIf="editar || novo" color="warn" type="submit">Salvar</button>
+            <button mat-raised-button color="accent" type="button" (click)="onLimpar()">Limpar</button>
+            <button mat-raised-button color="accent" type="button" (click)="onNovo()">Novo</button>
+            <button mat-raised-button *ngIf="consultar && !processamento" color="accent" type="button" (click)="onConsultar()">Consultar</button>
+            <button mat-raised-button *ngIf="((editar || novo) && !processamento)" color="warn" type="submit">Salvar</button>
           </div>
         </div>
       </div>
     </mat-card-actions>
     <mat-card-content>
-
       <div [fxLayout]="'row'" fxLayout.xs="column" style="cursor: pointer;">
         <div fxFlex=35 [fxLayout]="'column'">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Código" value="">
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Marca" value="">
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Cód. Fabricante" value="">
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="NCM" value="">
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Código de barras" value="">
+            <input matInput placeholder="Código" [disabled]="novo || editar" (keydown.enter)="onConsultar()" [(ngModel)]="produto.id" #produtoid="ngModel" #codigo name="produtoid" value="">
           </mat-form-field>
         </div>
-        <div fxFlex=35 [fxLayout]="'column'">
+        <div fxFlex=65 [fxLayout]="'column'">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Altura" value="">
+            <input matInput placeholder="Descrição" [(ngModel)]="produto.descricao" required #descricao="ngModel" #desc name="descricao" value="">
           </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Lagura" value="">
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Comprimento" value="">
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Peso bruto" value="">
-          </mat-form-field>
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Cód. montadora" value="">
-          </mat-form-field>
-        </div>
-        <div fxFlex="20" [fxLayout]="'column'">
-          <div fxFlex> D</div>
         </div>
       </div>
       <div [fxLayout]="'row'" fxLayout.xs="column" style="cursor: pointer;">
-        <div fxFlex=100 [fxLayout]="'column'">
+        <div fxFlex=35 [fxLayout]="'column'">
           <mat-form-field class="example-full-width">
-            <textarea matInput placeholder="Complemento" rows="5"></textarea>
+            <input matInput placeholder="Marca" [(ngModel)]="produto.fabricante.marca" #produtomarca="ngModel" name="produtomarca" value="">
           </mat-form-field>
           <mat-form-field class="example-full-width">
-            <textarea matInput placeholder="Compatível" rows="5"></textarea>
+            <input matInput placeholder="Cód. Fabricante" [(ngModel)]="produto.fabricante.codigo" #produtofabricante="ngModel" name="produtofabricante"
+              value="">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="NCM" [(ngModel)]="produto.NCM" #produtoncm="ngModel" name="produtoncm" value="">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Código de barras" [(ngModel)]="produto.codigobarras" #produtocbarra="ngModel" name="produtocbarra"
+              value="">
+          </mat-form-field>
+        </div>
+        <div fxFlex=35 [fxLayout]="'column'">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Altura" [(ngModel)]="produto.altura" #produtoaltura="ngModel" name="produtoaltura" value="">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Lagura" [(ngModel)]="produto.largura" #produtolagura="ngModel" name="produtolagura" value="">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Comprimento" [(ngModel)]="produto.comprimento" #produtocomprimento="ngModel" name="produtocomprimento"
+              value="">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Peso bruto"
+            [(ngModel)]="produto.pesobruto"
+            #produtopesobruto="ngModel" name="produtopesobruto"
+              value="">
+          </mat-form-field>
+        </div>
+        <div fxFlex="30"  >
+            <mat-card style='margin:10px' >
+                <img mat-card-image src="{{imagem}}" style="max-height: 150px;" >
+                <mat-card-actions>
+                  <img *ngFor="let item of produto.imagem "
+                    src="{{item}}"
+                    class="img-responsive"
+                    (click)="mudaImagem(item)"
+                    style="max-height: 50px;">
+                  </mat-card-actions>
+              </mat-card>
+        </div>
+      </div>
+      <div [fxLayout]="'row'" fxLayout.xs="column" style="cursor: pointer;">
+          <div fxFlex=100 [fxLayout]="'row'">
+
+      <mat-form-field class="example-full-width">
+          <input matInput
+          placeholder="Montadora"
+          #fmontadora
+          [(ngModel)]="montadora.descricao"
+          name="montadora" value="">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input matInput  placeholder="Código" [(ngModel)]="montadora.codigo" name="montadoracodigo" value="">
+            <mat-icon matSuffix (click)='alterarmontadora(montadora)'>add_circle</mat-icon>
+        </mat-form-field>
+      </div>
+    </div>
+
+      <div [fxLayout]="'row'" fxLayout.xs="column" style="cursor: pointer;">
+        <div fxFlex=100 [fxLayout]="'column'">
+            <mat-list>
+              <mat-list-item *ngFor="let montadora of produto.codigomontadora;let idx = index">
+                <mat-icon mat-list-icon (click)=deletarmontadora(idx)>clear</mat-icon>
+                <mat-icon mat-list-icon (click)=editarmontadora(idx)>create</mat-icon>
+                <h3 matLine> {{montadora.montadora}} </h3>
+                <h3 matLine> {{montadora.codigo}} </h3>
+              </mat-list-item>
+            </mat-list>
+        </div>
+      </div>
+
+      <div [fxLayout]="'row'" fxLayout.xs="column" style="cursor: pointer;">
+        <div fxFlex=100 [fxLayout]="'column'">
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Complemento" [(ngModel)]="produto.complemento" #produtocomplemento="ngModel" name="produtocomplemento"
+              rows="5"></textarea>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" hintLabel="Digite os modelos de carro separado por virgula">
+            <textarea matInput placeholder="Compatível - Digite os modelos de carro separados por vírgula. Para cada modelo, informar o ano " [(ngModel)]="produto.compativel" #produtocompativel="ngModel" name="produtocompativel"
+              rows="5"></textarea>
           </mat-form-field>
         </div>
       </div>

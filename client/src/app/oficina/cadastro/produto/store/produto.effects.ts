@@ -1,3 +1,4 @@
+import { Produto } from './../../../model/produto';
 import { ProdutoService } from './../produto.service';
 import { Actions, Effect } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
@@ -17,7 +18,7 @@ export class ProdutoEffects {
   produtoSearch = this.actions$
     .ofType(ProdutoActions.SEARCH_PRODUTO)
     .switchMap((action: ProdutoActions.SearchProduto) => {
-      return this.produtoService.getProduto(action.payload);
+      return this.produtoService.getProduto(action.payload, action.usuario);
     })
     .map((retorno: any) => {
       if (!retorno.success) {
@@ -32,10 +33,32 @@ export class ProdutoEffects {
       }
       return{
         type: ProdutoActions.SUCCESS_PRODUTO,
-        payload: retorno.produto
+        payload: new Produto(retorno.produto)
       };
     });
 
+    @Effect()
+    ProdutoStore = this.actions$
+      .ofType(ProdutoActions.STORE_PRODUTO)
+      .withLatestFrom(this.store.select('produto'))
+      .switchMap(([action, state]) => {
+        return this.produtoService.salvar(state.produto);
+      })
+      .map(
+        (retorno: any) => {
+          const oMessagem = new Mensagem();
+          oMessagem.message = retorno.message;
+          if (!retorno.success) {
+            oMessagem.erro = true;
+          } else {
+            oMessagem.erro = false;
+          }
+          return{
+            type: ProdutoActions.APOS_SALVAR,
+            payload: oMessagem
+          };
+        }
+      );
 
     constructor(
       private actions$: Actions,
